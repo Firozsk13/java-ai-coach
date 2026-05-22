@@ -18,7 +18,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-exempt_routes=["/user/login", "/user/register","/user/verify-email","/user/reset-password" ,"/docs","/openapi.json"]
+exempt_routes=["/user/login", "/user/register","/user/verify-email","/user/reset-password" ,"/docs","/openapi.json","/health"]
 
 app.add_middleware(CustomExceptionHandler)
 app.add_middleware(JwtMiddleware,exempt_routes=exempt_routes)
@@ -27,7 +27,7 @@ app.add_middleware(JwtMiddleware,exempt_routes=exempt_routes)
 init_db()
 create_super_admin()
 
-app.get("/health")
+@app.get("/health")
 async def healthCheck():
    return "Ok"
 

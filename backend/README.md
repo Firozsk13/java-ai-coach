@@ -24,7 +24,7 @@ python3 --version
     source venv/bin/activate  
 
    - For Windows (PowerShell) :-
-    venv\Scripts\Activate.ps1 
+    .venv\Scripts\Activate.ps1 
 
 
 ### ** 4 Install Project Dependencies  
