@@ -1,0 +1,914 @@
+
+.chat-page {
+  min-height: calc(100vh - 90px);
+  background: linear-gradient(135deg, #ecfdf5, #f0fdf4);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Background blobs */
+.chat-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(60px);
+  opacity: 0.6;
+  animation: float 12s infinite ease-in-out;
+}
+
+.b1 {
+  width: 320px;
+  height: 320px;
+  background: #4ade80;
+  top: 10%;
+  left: 5%;
+}
+
+.b2 {
+  width: 420px;
+  height: 420px;
+  background: #5eead4;
+  bottom: 10%;
+  right: 10%;
+}
+
+@keyframes float {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-40px); }
+  100% { transform: translateY(0); }
+}
+
+/* Chat wrapper */
+.chat-wrapper {
+  position: relative;
+  z-index: 2;
+  max-width: 1000px;
+  margin: auto;
+  padding: 30px 20px 20px;
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 120px);
+}
+
+/* Header */
+.chat-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.bot-identity {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.bot-icon {
+  font-size: 36px;
+}
+
+.bot-identity h5 {
+  margin: 0;
+  font-weight: 700;
+}
+
+.bot-identity p {
+  margin: 0;
+  font-size: 13px;
+  color: #6b7280;
+}
+
+.back-btn {
+  border-radius: 12px;
+  border: 1.5px solid #d1d5db;
+  background: #ffffff;
+  color: #374151;
+  font-weight: 500;
+  padding: 10px 20px;
+  transition: all 0.2s ease;
+}
+
+.back-btn:hover {
+  background: #f9fafb;
+  border-color: #9ca3af;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  color: black;
+}
+
+.download-btn {
+  border-radius: 12px;
+  border: 1.5px solid #4ade80;
+  background: linear-gradient(135deg, #4ade80, #22c55e);
+  color: #ffffff;
+  font-weight: 500;
+  padding: 10px 20px;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(74, 222, 128, 0.3);
+}
+
+.download-btn:hover:not(:disabled) {
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(74, 222, 128, 0.4);
+}
+
+.download-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.stop-audio-btn {
+  border-radius: 999px;
+  font-size: 14px;
+  padding: 8px 16px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Chat body */
+.chat-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.chat-row {
+  display: flex;
+}
+
+.chat-row.user {
+  justify-content: flex-end;
+}
+
+.chat-row.bot {
+  justify-content: flex-start;
+}
+
+/* Bubbles */
+.chat-bubble {
+  max-width: 70%;
+  padding: 16px 18px;
+  border-radius: 22px;
+  line-height: 1.6;
+  animation: popIn 0.25s ease;
+}
+
+.chat-row.user .chat-bubble {
+  background: linear-gradient(135deg, #4ade80, #22c55e);
+  color: #ffffff;
+  border-bottom-right-radius: 6px;
+  box-shadow: 0 4px 12px rgba(74, 222, 128, 0.25);
+}
+
+.chat-row.bot .chat-bubble {
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(14px);
+  color: #111827;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.06);
+  line-height: 1.75;
+  font-size: 15.5px;
+}
+
+.chat-bubble.loading {
+  padding: 12px 18px;
+}
+
+@keyframes popIn {
+  from {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Input bar */
+.chat-input-bar {
+  display: flex;
+  gap: 12px;
+  padding: 16px;
+  background: #ffffff;
+  border-radius: 18px;
+  box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.08);
+}
+
+.chat-input-bar input {
+  flex: 1;
+  border: none;
+  font-size: 16px;
+  padding: 12px 14px;
+}
+
+.chat-input-bar input:focus {
+  outline: none;
+}
+
+.chat-input-bar button {
+  padding: 12px 26px;
+  border-radius: 12px;
+  border: none;
+  background: linear-gradient(135deg, #4ade80, #22c55e);
+  color: #ffffff;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(74, 222, 128, 0.3);
+}
+
+.chat-input-bar button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(74, 222, 128, 0.4);
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+}
+
+.chat-input-bar button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.stop-generation-btn {
+  padding: 12px 26px;
+  border-radius: 999px;
+  border: none;
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+  color: #ffffff;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.stop-generation-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 28px rgba(239, 68, 68, 0.35);
+}
+
+
+/* Markdown Content Styling */
+.markdown {
+  line-height: 1.7;
+  word-wrap: break-word;
+}
+
+.markdown p,
+.markdown .markdown-paragraph {
+  margin-bottom: 16px;
+  margin-top: 0;
+  display: block;
+  white-space: normal; /* Normal wrapping for paragraphs */
+}
+
+/* Ensure proper spacing between paragraphs */
+.markdown p + p {
+  margin-top: 12px;
+}
+
+/* Code Blocks */
+.markdown pre {
+  background: #020617;
+  color: #e5e7eb;
+  padding: 18px 20px;
+  border-radius: 14px;
+  overflow-x: auto;
+  margin: 20px 0;
+  font-size: 14px;
+  line-height: 1.6;
+  display: block;
+  white-space: pre;
+}
+
+.markdown code {
+  font-family: "Fira Code", "JetBrains Mono", monospace;
+}
+
+/* Code Block Styling (ChatGPT-like) */
+.code-block-wrapper {
+  position: relative;
+  margin: 16px 0;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #1e1e1e;
+  border: 1px solid #2d2d2d;
+}
+
+.code-block-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 16px;
+  background: #252526;
+  border-bottom: 1px solid #2d2d2d;
+}
+
+.code-language {
+  font-size: 12px;
+  color: #858585;
+  text-transform: uppercase;
+  font-weight: 500;
+  font-family: "Fira Code", "JetBrains Mono", monospace;
+}
+
+.code-copy-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: transparent;
+  border: 1px solid #3e3e42;
+  color: #cccccc;
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: "Fira Code", "JetBrains Mono", monospace;
+}
+
+.code-copy-btn:hover {
+  background: #2d2d2d;
+  border-color: #3e3e42;
+  color: #ffffff;
+}
+
+.code-copy-btn svg {
+  width: 14px;
+  height: 14px;
+}
+
+.code-block-wrapper pre {
+  margin: 0;
+  padding: 16px;
+  background: #1e1e1e;
+  border-radius: 0;
+  overflow-x: auto;
+}
+
+.code-block-wrapper code {
+  color: #d4d4d4;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+/* Inline code styling */
+.markdown :not(pre) > code {
+  background: #f1f5f9;
+  color: #e11d48;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.9em;
+  font-weight: 500;
+}
+
+
+
+
+.markdown ul {
+  padding-left: 20px;
+  margin: 16px 0;
+  display: block;
+}
+
+.markdown li {
+  margin-bottom: 10px;
+  display: list-item;
+}
+
+.markdown h1,
+.markdown h2,
+.markdown h3 {
+  margin: 24px 0 14px;
+  font-weight: 700;
+  display: block;
+}
+
+/* Ensure spacing after headers */
+.markdown h1 + p,
+.markdown h2 + p,
+.markdown h3 + p {
+  margin-top: 0;
+}
+
+/* Structured Section Headers */
+.markdown .section-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 24px 0 12px;
+  font-size: 18px;
+  font-weight: 700;
+  color: #111827;
+}
+
+.markdown .section-icon {
+  font-size: 20px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.markdown .definition-header {
+  color: #3b82f6;
+}
+
+.markdown .example-header {
+  color: #ef4444;
+}
+
+.markdown .keypoints-header {
+  color: #f59e0b;
+}
+
+/* Definition Text - First paragraph after Simple Definition header */
+.markdown .definition-header + p {
+  font-size: 16px;
+  line-height: 1.7;
+  margin-bottom: 20px;
+  color: #374151;
+  padding-left: 30px;
+}
+
+/* Key Points List */
+.markdown .key-points-list {
+  margin: 16px 0;
+  padding-left: 30px;
+  list-style: none;
+}
+
+.markdown .key-point-item {
+  margin-bottom: 12px;
+  padding-left: 8px;
+  position: relative;
+  line-height: 1.7;
+  color: #374151;
+}
+
+.markdown .key-point-item::before {
+  content: "•";
+  position: absolute;
+  left: -8px;
+  color: #6b7280;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.markdown .key-point-item code {
+  background: #f1f5f9;
+  color: #e11d48;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.9em;
+  font-weight: 500;
+}
+
+
+.markdown hr {
+  border: none;
+  height: 1px;
+  background: #e5e7eb;
+  margin: 24px 0;
+}
+
+
+/* Copy button */
+.copy-btn {
+   margin-top: 8px;
+  align-self: flex-end;
+  background: none;
+  border: none;
+  font-size: 12px;
+  color: #22c55e;
+  cursor: pointer;
+  opacity: 0.8;
+}
+
+.copy-btn:hover {
+  text-decoration: underline;
+  opacity: 1;
+}
+
+/* Bot Avatar */
+.bot-avatar {
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bot-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transition: transform 0.3s ease;
+}
+
+/* Typing animation */
+.bot-avatar.typing img {
+  animation: bounce 1s infinite;
+}
+
+
+.mic-btn {
+  position: relative;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  margin-right: 6px;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #6b7280;
+  transition: color 0.2s ease;
+  border-radius: 50%;
+}
+
+.mic-btn:hover {
+  color: #4ade80;
+  background: rgba(74, 222, 128, 0.1);
+}
+
+.mic-btn svg {
+  width: 24px;
+  height: 24px;
+  transition: all 0.2s ease;
+}
+
+.mic-btn.listening {
+  color: #ef4444;
+}
+
+.mic-btn.listening svg {
+  animation: micPulse 1.5s ease-in-out infinite;
+}
+
+/* Listening waves animation */
+.listening-waves {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 2px solid #ef4444;
+  animation: listeningWave 1.5s ease-out infinite;
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+.listening-waves::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 2px solid #ef4444;
+  animation: listeningWave 1.5s ease-out infinite 0.3s;
+  opacity: 0.6;
+}
+
+.listening-waves::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 2px solid #ef4444;
+  animation: listeningWave 1.5s ease-out infinite 0.6s;
+  opacity: 0.6;
+}
+
+@keyframes listeningWave {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(2.5);
+    opacity: 0;
+  }
+}
+
+@keyframes micPulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+/* Stop button */
+.stop-btn {
+  position: relative;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  margin-right: 6px;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ef4444;
+  transition: all 0.2s ease;
+  border-radius: 50%;
+}
+
+.stop-btn:hover {
+  background: rgba(239, 68, 68, 0.1);
+  transform: scale(1.1);
+}
+
+.stop-btn svg {
+  width: 24px;
+  height: 24px;
+}
+
+
+
+
+
+
+/* Bot Avatar Bounce Animation */
+@keyframes bounce {
+  0%   { transform: translateY(0); }
+  50%  { transform: translateY(-6px); }
+  100% { transform: translateY(0); }
+}
+
+.streaming-cursor {
+  display: inline-block;
+  animation: blink 1s infinite;
+  margin-left: 2px;
+  color: #4ade80;
+  vertical-align: baseline;
+}
+
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+
+/* ========== RESPONSIVE STYLES ========== */
+@media (max-width: 1024px) {
+  .chat-wrapper {
+    max-width: 100%;
+    padding: 20px 16px;
+  }
+
+  .chat-top {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .bot-identity h5 {
+    font-size: 16px;
+  }
+
+  .bot-identity p {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 768px) {
+  .chat-page {
+    min-height: calc(100vh - 70px);
+  }
+
+  .chat-blob {
+    display: none;
+  }
+
+  .chat-wrapper {
+    padding: 16px 12px;
+    height: calc(100vh - 100px);
+  }
+
+  .chat-top {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+
+  .bot-identity {
+    width: 100%;
+  }
+
+  .bot-avatar {
+    width: 36px;
+    height: 36px;
+  }
+
+  .chat-top > div:last-child {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+  }
+
+  .download-btn,
+  .back-btn {
+    flex: 1;
+    padding: 8px 16px;
+    font-size: 14px;
+  }
+
+  .chat-body {
+    padding: 16px 8px;
+    gap: 14px;
+  }
+
+  .chat-bubble {
+    max-width: 85%;
+    padding: 14px 16px;
+    font-size: 14px;
+  }
+
+  .chat-input-bar {
+    padding: 12px;
+    gap: 8px;
+    border-radius: 16px;
+  }
+
+  .chat-input-bar input {
+    font-size: 14px;
+    padding: 10px 12px;
+  }
+
+  .chat-input-bar button {
+    padding: 10px 20px;
+    font-size: 14px;
+  }
+
+  .stop-generation-btn {
+    padding: 10px 16px;
+    font-size: 13px;
+  }
+
+  .mic-btn,
+  .stop-btn {
+    padding: 6px;
+  }
+
+  .mic-btn svg,
+  .stop-btn svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .markdown h2 {
+    font-size: 16px;
+  }
+
+  .markdown pre {
+    font-size: 12px;
+    padding: 14px 16px;
+  }
+
+  .code-block-header {
+    padding: 6px 12px;
+  }
+
+  .code-language {
+    font-size: 11px;
+  }
+
+  .code-copy-btn {
+    padding: 3px 8px;
+    font-size: 11px;
+  }
+}
+
+@media (max-width: 480px) {
+  .chat-wrapper {
+    padding: 12px 8px;
+    height: calc(100vh - 80px);
+  }
+
+  .chat-top {
+    margin-bottom: 12px;
+  }
+
+  .bot-identity h5 {
+    font-size: 15px;
+  }
+
+  .bot-identity p {
+    font-size: 11px;
+  }
+
+  .download-btn,
+  .back-btn {
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+
+  .chat-body {
+    padding: 12px 6px;
+    gap: 12px;
+  }
+
+  .chat-bubble {
+    max-width: 90%;
+    padding: 12px 14px;
+    font-size: 13px;
+    border-radius: 18px;
+  }
+
+  .chat-row.user .chat-bubble {
+    border-bottom-right-radius: 4px;
+  }
+
+  .chat-input-bar {
+    padding: 10px;
+    gap: 6px;
+    border-radius: 14px;
+  }
+
+  .chat-input-bar input {
+    font-size: 13px;
+    padding: 8px 10px;
+  }
+
+  .chat-input-bar button {
+    padding: 8px 16px;
+    font-size: 13px;
+  }
+
+  .stop-generation-btn {
+    padding: 8px 12px;
+    font-size: 12px;
+  }
+
+  .mic-btn,
+  .stop-btn {
+    padding: 5px;
+  }
+
+  .mic-btn svg,
+  .stop-btn svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .markdown {
+    font-size: 13px;
+  }
+
+  .markdown h2 {
+    font-size: 15px;
+    margin: 18px 0 10px;
+  }
+
+  .markdown p {
+    font-size: 13px;
+    margin-bottom: 12px;
+  }
+
+  .markdown pre {
+    font-size: 11px;
+    padding: 12px 14px;
+    margin: 16px 0;
+  }
+
+  .code-block-wrapper {
+    margin: 12px 0;
+  }
+
+  .code-block-header {
+    padding: 5px 10px;
+  }
+
+  .code-language {
+    font-size: 10px;
+  }
+
+  .code-copy-btn {
+    padding: 2px 6px;
+    font-size: 10px;
+    gap: 4px;
+  }
+
+  .code-copy-btn svg {
+    width: 12px;
+    height: 12px;
+  }
+
+  .copy-btn {
+    font-size: 11px;
+    margin-top: 6px;
+  }
+}
